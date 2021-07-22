@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'mptt',
+    'cart'
 ]
 
 MIDDLEWARE = [
@@ -129,8 +130,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
 
-SESSION_ENGINE = django.contrib.sessions.backends.cache
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_COOKIE_AGE = 604800
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_DOMAIN = None
-
+CART_SESSION_ID = 'grshop_cart'
