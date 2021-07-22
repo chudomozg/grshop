@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404
+
+from cart.forms import CartAddProductForm
 from .models import Category, Product
 
 
@@ -17,13 +19,12 @@ def product_list(request, category_slug=None):
 
 
 def product_detail(request, product_slug, category_slug):
-    product = get_object_or_404(Product,
-                                slug=product_slug,
-                                available=True)
     category = get_object_or_404(Category, slug=category_slug)
-    ancestors = category.get_ancestors(include_self=True)
     return render(request,
                   'main/catalog/product.html',
-                  {'product': product,
+                  {'product': get_object_or_404(Product,
+                                                slug=product_slug,
+                                                available=True),
                    'category': category,
-                   'ancestors': ancestors})
+                   'ancestors': category.get_ancestors(include_self=True),
+                   'cart_product_form': CartAddProductForm()})

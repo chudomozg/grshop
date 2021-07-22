@@ -32,6 +32,13 @@
             <div class="product-price col-12 col-md-9 fw-bold">
                 Price: {{ product.price }} rub
             </div>
+            <div class="product-add-to-cart-form col-12">
+                <form action="{% url "cart:cart_add" product.id %}" method="post">
+                    {{ cart_product_form }}
+                    {% csrf_token %}
+                    <input type="submit" value="Add to cart">
+                </form>
+            </div>
             <div class="product-price col-12 col-md-9 mb-3">
                 Stock: {{ product.stock }} pcs
             </div>

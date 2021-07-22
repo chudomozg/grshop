@@ -1,11 +1,14 @@
 from django.db import models
 from decimal import Decimal
 from django.conf import settings
+from django.shortcuts import get_object_or_404
+
+from main.models import Product
 
 
 class Cart(object):
     def __init__(self, request):
-        # cart inicialization
+        # cart initialization
         # if session have cart data - get it, else put empty cart to session
         # cart - dict {key = id of product, value = [count, price]
         # we save price to cart, because price can change.
@@ -15,17 +18,14 @@ class Cart(object):
         if not cart:
             # save empty cart to session
             cart = self.session[settings.CART_SESSION_ID] = {}
-            self.cart = cart
+        self.cart = cart
 
-    def add(self, product, count=1, add_to_count=False):
+    def add(self, product_id, count=1):
         # add product into cart or change count
         # we've got to use str(), because Django use JSON for session
-        # add_to_count - use for decreasing query "count of products"
-        product_id = str(product.id)
+        product = get_object_or_404(Product, id=product_id)
         if product_id not in self.cart:
-            self.cart[product_id] = {'count': 0, 'price': str(product.price)}
-        if add_to_count:
-            self.cart[product_id]['count'] = count
+            self.cart[product_id] = {'count': count, 'price': str(product.price)}
         else:
             self.cart[product_id]['count'] += count
         self.save()
@@ -34,12 +34,13 @@ class Cart(object):
         # mark session like used
         self.session.modified = True
 
-    def remove(self, product):
+    def remove(self, product_id):
         # remove product from cart
-        product_id = str(product.id)
-        if product_id in self.cart:
-            del self.cart[product_id]
-            self.save()
+        # product_id = str(product.id)
+        if Product.objects.filter(id=product_id).exists():
+            if product_id in self.cart:
+                del self.cart[product_id]
+                self.save()
 
     def __iter__(self):
         # make generator fog Cart, it will be used for views
@@ -50,12 +51,12 @@ class Cart(object):
         products = Product.objects.filter(id__in=product_ids)
         cart = self.cart.copy()
         for product in products:
-            cart[str(product.id)]['product'] = product
+            cart[product.id]['product'] = product
 
         for item in cart.values():
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['count']
-        yield item
+            yield item
 
     def __len__(self):
         # return total sum of all products (product count) in cart

@@ -14,17 +14,17 @@
                     <span class="fs-5 fw-semibold">Categories</span>
                     <div class="product-categories-list mt-3">
                         <ul class="root list-group">
-                       {% recursetree categories %}
-                            <li>
-                                <a class="link-dark rounded" href="{{ node.get_absolute_url }}">{{ node.name }}</a>
-                                {% if not node.is_leaf_node %}
-                                    <ul class="children">
-                                        {{ children }}
-                                    </ul>
-                                {% endif %}
-                            </li>
-                        {% endrecursetree %}
-                    </ul>
+                            {% recursetree categories %}
+                                <li>
+                                    <a class="link-dark rounded" href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+                                    {% if not node.is_leaf_node %}
+                                        <ul class="children">
+                                            {{ children }}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endrecursetree %}
+                        </ul>
                     </div>
 
                 </div>
@@ -34,10 +34,13 @@
             <div class="row">
                 <h1>{% if category %}{{ category.name }}{% else %}Products{% endif %}</h1>
                 {% for product in products %}
-                    <div class="product-item col-12 col-md-4 col-xl-3 h-100">
+                    <div class="product-item col-12 col-md-4 col-xl-3">
                         <a href="{{ product.get_absolute_url }}">
-                            <img class="img-fluid" src="
-                                    {% if product.image %}{{ product.image.url }}{% else %}{% static "main/img/no_image.jpg" %}{% endif %}">
+                            <div class="product-item-img__wrapper text-center">
+                                <img class="product-item-img" src="
+                                {% if product.image %}{{ product.image.url }}{% else %}
+                                    {% static "main/img/no_image.jpg" %}{% endif %}">
+                            </div>
                         </a>
                         <div class="product-item__below text-center">
                             <div class="product-item__link">

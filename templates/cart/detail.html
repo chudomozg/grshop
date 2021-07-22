@@ -1,0 +1,52 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+
+{% block title %}
+    GRshop | Cart
+{% endblock %}
+
+{% block content %}
+    <h1>Shopping cart</h1>
+    <table class="cart w-100 table .table-striped ">
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Product</th>
+            <th>Count</th>
+            <th>Remove</th>
+            <th>Unit price</th>
+            <th>Sum</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for item in cart %}
+            {% with product=item.product %}
+                <tr class="cart-item-tr">
+                    <td>
+                        <a href="{{ product.get_absolute_url }}">
+                            <img class="img-fluid cart-item-img" src="{% if product.image %}{{ product.image.url }}
+                                        {% else %}{% static "img/no_image.png" %}{% endif %}">
+                        </a>
+                    </td>
+                    <td>{{ product.title }}</td>
+                    <td>{{ item.count }}</td>
+                    <td><a href="{% url "cart:cart_remove" product.id %}">Remove</a></td>
+                    <td class="num">${{ item.price }}</td>
+                    <td class="num">${{ item.total_price }}</td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+        <tr class="total">
+            <td>Total</td>
+            <td colspan="4"></td>
+            <td class="num">${{ cart.get_total_price }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="text-right">
+        <a href="{% url "catalog:home" %}" class="button light">Continue shopping</a>
+        <a href="#" class="button">Checkout</a>
+    </p>
+{% endblock %}
