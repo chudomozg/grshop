@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'main/base.html' %}
+{% load static %}
+
+
+{% block title %}
+    {{ product.title }} | {{ category }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="product-img col-12 col-md-3">
+            <img class="img-fluid" src="
+
+                    {% if product.image %}{{ product.image.url }}{% else %}{% static "main/img/no_image.jpg" %}{% endif %}">
+        </div>
+        <div class="col-12 col-md-9">
+            <div class="product-breadcrumbs">
+                <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+
+                        {% for a in ancestors %}
+                            <li class="breadcrumb-item"><a href="{{ a.get_absolute_url }}">{{ a }}</a></li>
+                        {% endfor %}
+
+                        <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="product-title col-12">
+                <h1>{{ product.title }}</h1>
+            </div>
+            <div class="product-price col-12 col-md-9 fw-bold">
+                Price: {{ product.price }} rub
+            </div>
+            <div class="product-price col-12 col-md-9 mb-3">
+                Stock: {{ product.stock }} pcs
+            </div>
+            <div class="product-desc col-12 col-md-9">
+                {{ product.description }}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

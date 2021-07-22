@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'main/base.html' %}
+{% load static %}
+{% load mptt_tags %}
+
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 col-md-4 col-xl-3">
+            <div class="categoty-sidebar">
+                <div class="flex-shrink-0 p-3 bg-white">
+                    <span class="fs-5 fw-semibold">Categories</span>
+                    <div class="product-categories-list mt-3">
+                        <ul class="root list-group">
+                       {% recursetree categories %}
+                            <li>
+                                <a class="link-dark rounded" href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+                                {% if not node.is_leaf_node %}
+                                    <ul class="children">
+                                        {{ children }}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endrecursetree %}
+                    </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8 col-xl-9">
+            <div class="row">
+                <h1>{% if category %}{{ category.name }}{% else %}Products{% endif %}</h1>
+                {% for product in products %}
+                    <div class="product-item col-12 col-md-4 col-xl-3 h-100">
+                        <a href="{{ product.get_absolute_url }}">
+                            <img class="img-fluid" src="
+                                    {% if product.image %}{{ product.image.url }}{% else %}{% static "main/img/no_image.jpg" %}{% endif %}">
+                        </a>
+                        <div class="product-item__below text-center">
+                            <div class="product-item__link">
+                                <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                            </div>
+                            <div class="product-item__price">{{ product.price }} rub</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
