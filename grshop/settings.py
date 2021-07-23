@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart'
             ],
         },
     },
@@ -138,6 +139,5 @@ CART_SESSION_ID = 'grshop_cart'
 
 
 # CART SETTINGS
-PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 100)]
 TYPES_OF_TOASTS = {"PRODUCT_HAS_ADDED": "PRODUCT_HAS_ADDED",
                    "PRODUCT_HAS_DELETED": 'PRODUCT_HAS_DELETED'}
