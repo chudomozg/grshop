@@ -10,7 +10,6 @@
     <div class="row">
         <div class="product-img col-12 col-md-3">
             <img class="img-fluid" src="
-
                     {% if product.image %}{{ product.image.url }}{% else %}{% static "main/img/no_image.jpg" %}{% endif %}">
         </div>
         <div class="col-12 col-md-9">
@@ -36,7 +35,9 @@
                 <form action="{% url "cart:cart_add" product.id %}" method="post">
                     {{ cart_product_form }}
                     {% csrf_token %}
-                    <input type="submit" value="Add to cart">
+                    <button type="button" class="product-add-to-cart-button btn btn-primary" value="{{ product.id }}">
+                        Add to cart
+                    </button>
                 </form>
             </div>
             <div class="product-price col-12 col-md-9 mb-3">
@@ -48,5 +49,25 @@
         </div>
     </div>
 
+    <script>
+        //переписать если будет время.
+        $(document).on('click', '.product-add-to-cart-button', function (e) {
+            e.preventDefault();
+            let data = $('.product-add-to-cart-form form').serialize();
+            data.productId = $('.product-add-to-cart-button').val()
+            $.ajax({
+                type: 'POST',
+                url: '{% url "cart:cart_add" product.id %}',
+                data: data,
+                success: function (json) {
+                    console.log(json.count)
+                    $('.navbar-cart-count').html(json.count)
+                },
+                error: function (xhr, errMsg, err) {
+                    console.error(errMsg, [xhr, err])
+                }
+            })
+        })
+    </script>
 
 {% endblock %}

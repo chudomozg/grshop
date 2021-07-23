@@ -1,10 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'main/base.html' %}
+{% load static %}
+{% load mptt_tags %}
+
+{% block title %}
+    GRshop - ecommerce
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="hero">
+            <div class="px-4 py-5 my-5 text-center">
+                <h1 class="display-5 fw-bold">GRshop</h1>
+                <div class="col-lg-6 mx-auto">
+                    <p class="lead mb-4">Django e-commerce app with minimalistic design. Based on Django, Bootstrap 5,
+                        Bootswatch</p>
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                        <a href="{% url 'catalog:product_list_by_category' %}"
+                           class="btn btn-primary btn-lg px-4 gap-3">
+                            Demo catalog
+                        </a>
+                        <a href="#bestsellers"
+                           class="btn btn-outline-secondary btn-lg px-4">
+                            Read more
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <h1>Bestsellers</h1>
+        <div id="bestsellers" class="bestsellers row">
+            {% for product in products %}
+                <div class="col-12 col-md-4 col-lg-3">
+                    <div class="card ">
+                        <img class="bestsellers-item-img card-img-top mt-3" src="
+                                {% if product.image %}{{ product.image.url }}{% else %}
+                                    {% static "main/img/no_image.jpg" %}{% endif %}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.title }}</h5>
+                            <p class="card-text">{{ product.short_desc }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Price: {{ product.price }} rub</li>
+                            <li class="list-group-item">Stock: {{ product.stock }} pcs</li>
+                        </ul>
+                        <div class="card-body
+                                    d-md-flex
+                                    justify-content-xxl-around
+                                    justify-content-xl-between
+                                    justify-content-lg-center
+                                    justify-content-around
+                                    flex-wrap">
+                            <a href="#" class="btn btn-primary mb-0 mb-md-3 mb-xxl-0">
+                                Add to cart
+                            </a>
+                            <a href="{{ product.get_absolute_url }}" class="btn btn-outline-secondary ">More details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

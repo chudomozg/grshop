@@ -3,6 +3,7 @@ from django.views.decorators.http import require_POST
 from main.models import Product
 from .models import Cart
 from .forms import CartAddProductForm
+from django.http import JsonResponse
 
 
 @require_POST
@@ -16,8 +17,9 @@ def cart_add(request, product_id):
         cd = form.cleaned_data
         cart.add(product_id=product_id,
                  count=cd['count'])
-    return redirect('cart:cart_detail')
-
+    # return redirect('cart:cart_detail')
+    response = JsonResponse({'count': cart.__len__()})
+    return response
 
 def cart_remove(request, product_id):
     cart = Cart(request)

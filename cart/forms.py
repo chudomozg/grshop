@@ -1,6 +1,7 @@
 from django import forms
-from grshop.settings import PRODUCT_QUANTITY_CHOICES
 
+
+PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 100)]
 
 class CartAddProductForm(forms.Form):
     # count product for adding into cart: TypedChoiceField for getting int value automatic

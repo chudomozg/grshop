@@ -18,6 +18,15 @@ def product_list(request, category_slug=None):
                    'products': products})
 
 
+def get_home_page(request):
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True, on_front=True)
+    return render(request,
+                  'main/home.html',
+                  {'categories': categories,
+                   'products': products})
+
+
 def product_detail(request, product_slug, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
     return render(request,

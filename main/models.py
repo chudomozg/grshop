@@ -82,9 +82,9 @@ class Customer(models.Model):
                                verbose_name='Address',
                                null=True,
                                blank=True)
-    orders = models.ManyToManyField('Order',
-                                    verbose_name='Orders',
-                                    related_name='related_order')
+    # orders = models.ManyToManyField('Order',
+    #                                 verbose_name='Orders',
+    #                                 related_name='related_order')
 
     def __str__(self):
         return "{} {}".format(self.user.first_name, self.user.last_name)
