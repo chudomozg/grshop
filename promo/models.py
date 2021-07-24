@@ -32,7 +32,7 @@ class Promo(PolymorphicModel):
                              verbose_name='Title')
     promo_code = models.CharField(max_length=255,
                                   verbose_name='Promotion code',
-                                  default=get_random_string(length=6))
+                                  default=get_random_string(length=6).upper())
     slug = models.SlugField(unique=True,
                             verbose_name="slug (URL)")
     image = models.ImageField(upload_to='promo/',

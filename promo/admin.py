@@ -1,10 +1,36 @@
 from django.contrib import admin
-from .models import Promo
+from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
+from .models import Promo, ProductGroupDiscount, SimpleDiscount, CountInStock
 
 
-class PromoAdmin(admin.ModelAdmin):
-    list_display = ['title', 'slug', 'discount']
-    prepopulated_fields = {'slug': ('title',)}
+class PromoChildAdmin(PolymorphicChildModelAdmin):
+    """ Base admin class for all child models """
+    base_model = Promo  # Optional, explicitly set here.
+
+    # By using these `base_...` attributes instead of the regular ModelAdmin `form` and `fieldsets`,
+    # the additional fields of the child models are automatically added to the admin form.
+    # base_form = ...
+    # base_fieldsets = ['title', 'promo_code', 'slug', 'discount', 'start_date', 'end_date']
 
 
-admin.site.register(Promo, PromoAdmin)
+@admin.register(ProductGroupDiscount)
+class ProductGroupDiscountAdmin(PromoChildAdmin):
+    base_model = ProductGroupDiscount
+
+
+@admin.register(SimpleDiscount)
+class SimpleDiscountAdmin(PromoChildAdmin):
+    base_model = SimpleDiscount
+
+
+@admin.register(CountInStock)
+class CountInStockAdmin(PromoChildAdmin):
+    base_model = CountInStock
+
+
+@admin.register(Promo)
+class PromoParentAdmin(PolymorphicParentModelAdmin):
+    """ The parent model admin """
+    base_model = Promo  # Optional, explicitly set here.
+    child_models = (ProductGroupDiscount, SimpleDiscount, CountInStock)
+    list_filter = (PolymorphicChildModelFilter,)  # This is optional.
