@@ -11,6 +11,9 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/',
                               blank=True,
                               verbose_name="Image")
+    specification = models.FileField(verbose_name="Specification File",
+                                     upload_to="specifications/",
+                                     blank=True,)
     description = models.TextField(verbose_name="Description")
     short_desc = models.CharField(verbose_name="Short description for promo",
                                   blank=True,
