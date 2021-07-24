@@ -1,8 +1,7 @@
 from datetime import datetime, timedelta
-
 from django.db import models
-from ..models import Product
 from django.urls import reverse
+from main.models import Product
 
 
 def get_promos_list(show_expired=False):
@@ -31,7 +30,7 @@ class Promo(models.Model):
     short_desc = models.CharField(verbose_name="Short description for promo",
                                   blank=True,
                                   max_length=255)
-    products = models.ManyToManyField('Product',
+    products = models.ManyToManyField('main.Product',
                                       verbose_name='Products',
                                       related_name='related_product')
     discount = models.PositiveIntegerField(default=0,

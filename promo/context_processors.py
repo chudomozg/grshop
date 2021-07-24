@@ -1,4 +1,4 @@
-from .models.promo import get_promos_list
+from .models import get_promos_list
 
 
 def promos(request):
