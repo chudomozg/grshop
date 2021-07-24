@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'polymorphic',
     'main',
     'mptt',
     'cart',
@@ -138,7 +139,6 @@ SESSION_COOKIE_AGE = 604800
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_DOMAIN = None
 CART_SESSION_ID = 'grshop_cart'
-
 
 # CART SETTINGS
 TYPES_OF_TOASTS = {"PRODUCT_HAS_ADDED": "PRODUCT_HAS_ADDED",
