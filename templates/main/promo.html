@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load mptt_tags %}
+
+{% block title %}
+    GRshop | Promo {{ promo.title }}
+{% endblock %}
+
+{% block content %}
+    {{ promos_list }}
+
+{% endblock %}
