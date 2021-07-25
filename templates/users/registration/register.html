@@ -1,0 +1,88 @@
+{% extends "../../main/base.html" %}
+{% block title %}Log-in{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row no-gutter">
+            <div class="col-md-12">
+                <div class="login d-flex align-items-center py-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 col-lg-7  mx-auto">
+                                <form class="account-form p-4 rounded col-lg-10 mx-auto" action="" method="post">
+                                    {% csrf_token %}
+                                    <h3 class="mb-2 font-weight-bold">Create an account</h3>
+                                    <p class="mb-4">It's free and only takes a minute.</p>
+
+                                    {% if form.errors %}
+                                        <p>Please correct the following errors:</p>
+                                        {% for field in form %}
+                                            {% if field.errors %}
+                                                <div class="alert alert-primary" role="alert">
+                                                    {{ field.label }}: {{ field.errors|striptags }}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    <label>{{ form.user_name.label }}<span class="text-muted small">
+                                        (Required)</span></label>
+                                    {{ form.user_name }}
+                                    <label>{{ form.email.label }}<span class="text-muted small">
+                                        (Required)</span></label>
+                                    {{ form.email }}
+                                    <label>{{ form.password.label }}<span class="text-muted mb-4">
+                                        </span></label>
+                                    <small class="form-text text-muted mb-4 small">
+                                        At least 8 characters and 1 digit
+                                    </small>
+                                    {{ form.password }}
+                                    <label>{{ form.password2.label }}<span class="text-muted small">
+                                        (Required)</span></label>
+                                    {{ form.password2 }}
+                                    <button class="btn btn-primary btn-block py-2 mb-4 mt-5 fw500 w-100" type="submit">
+                                        Register
+                                    </button>
+                                    <p class="text-center">
+                                        <a href="{% url "users:login" %}">Already have an account?</a>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if modal %}
+        <!-- Modal -->
+        <div class="modal fade" id="regConfirmModal" data-bs-backdrop="static" data-bs-keyboard="false"
+             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Registration process</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ modal.message }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="user-register-comfirm-btn-understand btn btn-primary"
+                                data-bs-dismiss="modal">{{ modal.button_text }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            {#  переписать если будет время      #}
+            $(document).ready(function () {
+                 $("#regConfirmModal").modal("show");
+            })
+            $(document).on('click', '.user-register-comfirm-btn-understand', function (e) {
+                e.preventDefault();
+                window.location.replace("{% url 'users:login' %}")
+            })
+        </script>
+    {% endif %}
+{% endblock %}

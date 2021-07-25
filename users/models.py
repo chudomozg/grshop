@@ -3,6 +3,8 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
 from django.core.mail import send_mail
 
+from grshop.settings import DEFAULT_FROM_EMAIL, EMAIL_BACKEND, SENDING_EMAIL_OFF
+
 
 class CustomUserManager(BaseUserManager):
     # custom manager for UserBase extended BaseUserManager
@@ -66,13 +68,24 @@ class UserBase(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = "Users"
 
     def email_user(self, subject, message):
-        send_mail(
-            subject,
-            message,
-            'no-reply@grshop.com',
-            [self.email],
-            fail_silently=False,
-        )
+        # Method for sending email
+        # check settings.py for setup
+        # if you use app in dev server, just check console
+        # all emails, that have to be send will be shown in console
+        if SENDING_EMAIL_OFF:
+            print ('''YOU HAVE TRIED TO SEND EMAIL FROM GRSHOP WITH SENDING_EMAIL_OFF=TRUE
+                    Subject: {}
+                    Message: {}
+                    FOR SENDING EMAIL FROM PRODUCT CHECK SETTINGS.PY'''.format(subject, message))
+        else:
+            send_mail(
+                subject,
+                message,
+                DEFAULT_FROM_EMAIL,
+                [self.email],
+                fail_silently=False,
+                connection=EMAIL_BACKEND
+            )
 
     def __str__(self):
         return self.user_name

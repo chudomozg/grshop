@@ -149,3 +149,17 @@ TYPES_OF_TOASTS = {"PRODUCT_HAS_ADDED": "product added",
 AUTH_USER_MODEL = 'users.UserBase'
 LOGIN_REDIRECT_URL = '/user/dashboard'
 LOGIN_URL = 'user/login'
+REGISTRATION_SUCCESS_TEXT = '''Your registration was successful.
+                            You need to activate your account for use on the site. 
+                            An email was sent to you with an activation link and further instructions.'''
+
+# #MAIL SETTINGS
+SENDING_EMAIL_OFF = True
+DEFAULT_FROM_EMAIL = 'admin@mail.com'
+# SERVER_EMAIL = 'admin@mail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'mail.gmail.com'
+# EMAIL_HOST_USER = 'email'
+# EMAIL_HOST_PASSWORD = 'password'
+# EMAIL_PORT = 587
