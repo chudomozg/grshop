@@ -3,7 +3,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth import login, logout
 
 from grshop.settings import REGISTRATION_SUCCESS_TEXT
-from .forms import RegistrationForm
+from .forms import RegistrationForm, UserEditForm
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
@@ -11,14 +11,6 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from .models import UserBase
 from .tokens import user_activation_token
-
-
-@login_required
-def dashboard(request):
-    # orders = user_orders(request)
-    return render(request,
-                  'users/user/dashboard.html', )
-    # {'section': 'profile', 'orders': orders})
 
 
 def user_registration(request):
@@ -68,3 +60,25 @@ def user_activate(request, uidb64, token):
         return redirect('users:dashboard')
     else:
         return render(request, 'users/registration/activation_invalid.html')
+
+
+@login_required(login_url='users:login')
+def dashboard(request):
+    # orders = user_orders(request)
+    return render(request,
+                  'users/user/dashboard.html')
+    # {'section': 'profile', 'orders': orders})
+
+
+@login_required(login_url='users:login')
+def edit_details(request):
+    if request.method == 'POST':
+        user_form = UserEditForm(instance=request.user, data=request.POST)
+
+        if user_form.is_valid():
+            user_form.save()
+    else:
+        user_form = UserEditForm(instance=request.user)
+
+    return render(request,
+                  'users/user/edit_details.html', {'user_form': user_form})
