@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from main.models import Product
-from .models import Cart
-from .forms import CartAddProductForm
+from ..models import Cart
+from ..forms import CartAddProductForm
 from django.http import JsonResponse
 
 
@@ -21,10 +21,12 @@ def cart_add(request, product_id):
     response = JsonResponse({'count': cart.__len__()})
     return response
 
+
 def cart_remove(request, product_id):
     cart = Cart(request)
     cart.remove(product_id)
     return redirect('cart:cart_detail')
+
 
 def cart_detail(request):
     return render(request, 'cart/detail.html', {'cart': Cart(request)})
