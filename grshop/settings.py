@@ -163,3 +163,20 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST_USER = 'email'
 # EMAIL_HOST_PASSWORD = 'password'
 # EMAIL_PORT = 587
+
+
+# ORDERS SETTINGS
+STATUS = {'NEW': 'new order',
+          'IN_PROGRESS': 'order in progress',
+          'READY': 'order is ready to delivery/self picking up',
+          'STATUS_COMPLETED': 'order is completed'}
+
+DELIVERY_TYPE = {"SELF": "self",
+                 "STANDARD_DELIVERY": "standard delivery"}
+
+BILLING_STATUS = {"NOT_PAID": 'not paid',
+                  "PART_PAID": 'paid particularly',
+                  "FULL_PAID": 'full paid'}
+
+BILLING_TYPE = {"IN_OFFICE": "in office by self picking up",
+                "CARD_ON_SITE": "card on site now"}
