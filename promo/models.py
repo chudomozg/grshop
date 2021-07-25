@@ -6,19 +6,19 @@ from polymorphic.models import PolymorphicModel
 from django.utils.crypto import get_random_string
 
 
-def get_promos_list(show_expired=False):
-    # Helper
-    # Use for list in views, so we don't need all fields
+class PromoManager(models.Manager):
+    # custom manager extend models.Manager
+    # get_list use for list in views, so we don't need all fields
     # show_expired : bool - show promos which end_date < today
-
-    fields_list = ["title",
-                   "slug",
-                   "image",
-                   "short_desc",
-                   "discount"]
-    if show_expired:
-        return Promo.objects.all().only(*fields_list)
-    return Promo.objects.filter(end_date__gte=datetime.today()).only(*fields_list)
+    def get_list(self, show_expired=False):
+        fields_list = ["title",
+                       "slug",
+                       "image",
+                       "short_desc",
+                       "discount"]
+        if show_expired:
+            return self.get_queryset().all().only(*fields_list)
+        return self.get_queryset().filter(end_date__gte=datetime.today()).only(*fields_list)
 
 
 class Promo(PolymorphicModel):
@@ -52,6 +52,8 @@ class Promo(PolymorphicModel):
     end_date = models.DateTimeField(verbose_name="End date and time",
                                     default=datetime.now() + timedelta(days=30))
 
+    promo_manager = PromoManager()
+
     def __str__(self):
         return "{}: discount {}%".format(self.title, self.discount)
 
@@ -69,7 +71,7 @@ class ProductGroupDiscount(Promo):
 
     def condition(self, cart):
         cart_products_ids = set(cart.keys())
-        promo_products_ids = set(self.products).values_list('id', flat=True)
+        promo_products_ids = set(self.products.values_list('id', flat=True))
         return promo_products_ids.issubset(cart_products_ids)
 
 

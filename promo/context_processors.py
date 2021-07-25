@@ -1,5 +1,5 @@
-from .models import get_promos_list
+from .models import Promo
 
 
 def promos(request):
-    return {'promos': get_promos_list()}
+    return {'promos': Promo.promo_manager.get_list()}
