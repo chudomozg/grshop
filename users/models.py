@@ -4,6 +4,7 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
 from django.core.mail import send_mail
 
 from grshop.settings import DEFAULT_FROM_EMAIL, EMAIL_BACKEND, SENDING_EMAIL_OFF
+from users.mixins import DeliveryDetailsMixin
 
 
 class CustomUserManager(BaseUserManager):
@@ -39,17 +40,9 @@ class CustomUserManager(BaseUserManager):
         return user
 
 
-class UserBase(AbstractBaseUser, PermissionsMixin):
+class UserBase(AbstractBaseUser, DeliveryDetailsMixin, PermissionsMixin):
     email = models.EmailField('email address', unique=True)
     user_name = models.CharField(max_length=150, unique=True)
-    first_name = models.CharField(max_length=150, blank=True)
-    phone_number = models.CharField(max_length=15, blank=True)
-    # Delivery details
-    country = models.CharField(max_length=20, blank=True)
-    area = models.CharField(max_length=50, blank=True)
-    city = models.CharField(max_length=150, blank=True)
-    address = models.CharField(max_length=255, blank=True)
-    postcode = models.CharField(max_length=12, blank=True)
 
     # User Status:
     # In default user will not active
