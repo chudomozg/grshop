@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'main',
     'mptt',
     'cart',
-    'promo'
+    'promo',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -141,5 +142,10 @@ SESSION_COOKIE_DOMAIN = None
 CART_SESSION_ID = 'grshop_cart'
 
 # CART SETTINGS
-TYPES_OF_TOASTS = {"PRODUCT_HAS_ADDED": "PRODUCT_HAS_ADDED",
-                   "PRODUCT_HAS_DELETED": 'PRODUCT_HAS_DELETED'}
+TYPES_OF_TOASTS = {"PRODUCT_HAS_ADDED": "product added",
+                   "PRODUCT_HAS_DELETED": 'product deleted'}
+
+# USERS SETTINGS
+AUTH_USER_MODEL = 'users.UserBase'
+LOGIN_REDIRECT_URL = '/user/dashboard'
+LOGIN_URL = 'user/login'
