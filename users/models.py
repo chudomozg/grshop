@@ -48,7 +48,10 @@ class UserBase(AbstractBaseUser, PermissionsMixin):
     city = models.CharField(max_length=150, blank=True)
     address = models.CharField(max_length=255, blank=True)
     postcode = models.CharField(max_length=12, blank=True)
-    # User Status
+
+    # User Status:
+    # In default user will not active
+    # It will be activate after email confirming
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
@@ -66,7 +69,7 @@ class UserBase(AbstractBaseUser, PermissionsMixin):
         send_mail(
             subject,
             message,
-            'l@1.com',
+            'no-reply@grshop.com',
             [self.email],
             fail_silently=False,
         )

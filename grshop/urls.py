@@ -10,6 +10,7 @@ urlpatterns = [
                   path('promo/', include(('promo.urls', 'promo'), namespace='promo')),
                   path('cart/', include(('cart.urls', 'cart'), namespace='cart')),
                   path('catalog/', include(('main.urls', 'main'), namespace='catalog')),
+                  path('user/', include(('users.urls', 'users'), namespace='users')),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
