@@ -16,16 +16,19 @@ class PromoChildAdmin(PolymorphicChildModelAdmin):
 @admin.register(ProductGroupDiscount)
 class ProductGroupDiscountAdmin(PromoChildAdmin):
     base_model = ProductGroupDiscount
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(SimpleDiscount)
 class SimpleDiscountAdmin(PromoChildAdmin):
     base_model = SimpleDiscount
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(CountInStock)
 class CountInStockAdmin(PromoChildAdmin):
     base_model = CountInStock
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(Promo)
@@ -33,4 +36,5 @@ class PromoParentAdmin(PolymorphicParentModelAdmin):
     """ The parent model admin """
     base_model = Promo  # Optional, explicitly set here.
     child_models = (ProductGroupDiscount, SimpleDiscount, CountInStock)
+    base_fieldsets = ['title', 'promo_code', 'slug', 'discount', 'start_date', 'end_date']
     list_filter = (PolymorphicChildModelFilter,)  # This is optional.

@@ -56,7 +56,7 @@ class Promo(PolymorphicModel):
     promo_manager = PromoManager()
 
     def __str__(self):
-        return "{}: discount {}%".format(self.title, self.discount)
+        return self.title
 
     class Meta:
         ordering = ['title', 'discount']
