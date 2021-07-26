@@ -32,7 +32,7 @@
                 Price: {{ product.price }} rub
             </div>
             <div class="product-add-to-cart-form col-12">
-                <form action="{% url "cart:cart_add" product.id %}" method="post">
+                <form action="{% url "cart:cart_add" product.id %}" method="post" class="d-flex justify-content-start">
                     {{ cart_product_form }}
                     {% csrf_token %}
                     <button type="button" class="product-add-to-cart-button btn btn-primary" value="{{ product.id }}">
@@ -54,14 +54,16 @@
         $(document).on('click', '.product-add-to-cart-button', function (e) {
             e.preventDefault();
             let data = $('.product-add-to-cart-form form').serialize();
+            console.log((data))
             data.productId = $('.product-add-to-cart-button').val()
             $.ajax({
                 type: 'POST',
                 url: '{% url "cart:cart_add" product.id %}',
                 data: data,
                 success: function (json) {
-                    console.log(json.count)
                     $('.navbar-cart-count').html(json.count)
+                    $('.navbar-cart-count').removeClass('d-none')
+                    $('.navbar-cart-count').addClass('d-block')
                 },
                 error: function (xhr, errMsg, err) {
                     console.error(errMsg, [xhr, err])

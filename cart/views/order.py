@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 
 from grshop.settings import ORDER_ALREADY_EXIST_TEXT
+from promo.forms import CheckPromoCodeForm
 from promo.models import Promo
 from users.helpers import get_delivery_detail_fields_dict
 from ..forms import CheckOutForm
@@ -55,5 +56,6 @@ def checkout(request):
                             initial=get_delivery_detail_fields_dict(request.user))
         return render(request,
                       'cart/checkout.html',
-                      {'checkout_form': form})
+                      {'checkout_form': form,
+                       "check_promocode_form": CheckPromoCodeForm()})
     return redirect('cart:cart_detail')

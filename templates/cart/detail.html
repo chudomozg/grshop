@@ -8,7 +8,8 @@
 
 {% block content %}
     <h1>Shopping cart</h1>
-    <table class="cart w-100 table .table-striped ">
+    <div class="order-table col-12">
+        <table class="cart w-100 table .table-striped ">
         <thead>
         <tr>
             <th>Image</th>
@@ -45,8 +46,13 @@
         </tr>
         </tbody>
     </table>
-    <p class="text-right">
+    </div>
+
+    <p class="text-right d-flex justify-content-between">
         <a href="{% url "catalog:product_list_by_category" %}" class="button light">Continue shopping</a>
-        <a href="{% url "cart:checkout" %}" class="button">Checkout</a>
+        <span class="checkout-link">
+            If you have a promo code, use it on next step ->
+            <a href="{% url "cart:checkout" %}" class="button">Checkout</a>
+        </span>
     </p>
 {% endblock %}

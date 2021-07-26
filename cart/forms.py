@@ -3,6 +3,8 @@ from django.forms import Select
 
 from cart.models import Order
 from grshop.settings import DELIVERY_TYPE, BILLING_TYPE, AVAILABLE_BILLING_TYPE, AVAILABLE_DELIVERY_TYPE
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, Div, MultiField, Field
 
 PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 10)]
 
@@ -14,7 +16,7 @@ class CartAddProductForm(forms.Form):
 
     count = forms.TypedChoiceField(choices=PRODUCT_QUANTITY_CHOICES,
                                    coerce=int,
-                                   widget=forms.Select(attrs={'class': "form-control"}))
+                                   widget=forms.Select(attrs={'class': "form-control w-auto mx-3"}))
 
 
 class SelectWidgetWithDisableOptions(Select):
@@ -72,4 +74,22 @@ class CheckOutForm(forms.Form):
             'billing_type',
             'delivery_type',
             'comment'
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Div(Field('first_name'), css_class='col-12 col-lg-6'),
+            Div(Field('last_name'), css_class='col-12 col-lg-6'),
+            Div(Field('phone_number'), css_class='col-12 col-lg-6'),
+            Div(Field('country'), css_class='col-12 col-lg-6'),
+            Div(Field('area'), css_class='col-12 col-lg-6'),
+            Div(Field('city'), css_class='col-12 col-lg-6'),
+            Div(Field('address'), css_class='col-12 col-lg-6'),
+            Div(Field('postcode'), css_class='col-12 col-lg-6'),
+            Div(Field('billing_type'), css_class='col-12 col-lg-6'),
+            Div(Field('delivery_type'), css_class='col-12 col-lg-6'),
+            Div(Field('promo_code'), css_class=''),
+            Div(Field('comment'), css_class="col-12")
         )

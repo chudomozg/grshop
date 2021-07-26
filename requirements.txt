@@ -1,5 +1,7 @@
 asgiref==3.4.1
+crispy-bootstrap5==0.4
 Django==3.2.5
+django-crispy-forms==1.12.0
 django-js-asset==1.2.2
 django-mptt==0.12.0
 django-polymorphic==3.0.0

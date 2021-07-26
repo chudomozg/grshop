@@ -12,7 +12,7 @@
         <div class="col-12">
             <h1>Checkout order</h1>
         </div>
-        <div class="col-12">
+        <div class="order-table col-12 col-lg-8">
             <table class="cart w-100 table .table-striped ">
                 <thead>
                 <tr>
@@ -35,23 +35,31 @@
                     {% endwith %}
                 {% endfor %}
                 <tr class="total">
-                    <td>Total</td>
-                    <td colspan="4"></td>
+                    <td><b>Total</b></td>
+                    <td colspan="2"></td>
                     <td class="num">${{ cart.get_total_price }}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="checkout-order-detail col-12">
-            <div class="checkout-order-detail__title">
-                Check order delivery and payment information
+        <div class="order-promocode col-12 col-lg-4">
+            <form action="{% url "cart:order_add" %}" method="POST" class="d-flex justify-content-evenly align-items-center">
+                {{ check_promocode_form|crispy  }}
+                <button class="btn btn-outline-primary mt-3" type="submit">Check it!</button>
+            </form>
+        </div>
+        <div class="checkout-order-detail col-12 mt-5">
+            <div class="checkout-order-detail__title mb-3">
+                <h5>Check order delivery and payment information</h5>
             </div>
             <div class="checkout-order-detail__body">
                 <div class="checkout-order-detail__form">
-                    <form action="{% url "cart:order_add" %}" method="POST">
+                    <form action="{% url "cart:order_add" %}" method="POST" class="row">
                         {% csrf_token %}
-                        {{ checkout_form|crispy}}
-                        <button type="submit">Send order</button>
+                        {% crispy checkout_form %}
+                        <div class="checkout-order-button__wrapper d-flex justify-content-end mt-3 mb-5">
+                            <button class="btn btn-primary" type="submit">Send order</button>
+                        </div>
                     </form>
                 </div>
             </div>

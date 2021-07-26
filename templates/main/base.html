@@ -26,33 +26,39 @@
             </a>
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="{% url 'catalog:product_list_by_category' %}"
-                       class="nav-link px-2 link-secondary">Catalog</a></li>
-                <li>
-                    <a href="{% url 'promo:promo_list' %}" class="nav-link px-2 link-dark">Promo</a>
+                <li><a href="{% url 'home' as home %}{{ home }}"
+                       class="nav-link px-2 {% if request.path == home %}link-secondary{% else %}link-dark{% endif %}">Home</a>
                 </li>
-                <li><a href="{% url 'users:dashboard' %}" class="nav-link px-2 link-dark">Orders</a></li>
+                <li><a href="{% url 'catalog:product_list_by_category' as plbc %}{{ plbc }}"
+                       class="nav-link px-2 link-secondary {% if request.path == plbc %} link-secondary{% else %}link-dark{% endif %}">Catalog</a>
+                </li>
+                <li>
+                    <a href="{% url 'promo:promo_list' as pl %}{{ pl }}"
+                       class="nav-link px-2 {% if request.path == pl %} link-secondary{% else %}link-dark{% endif %}">Promo</a>
+                </li>
+                <li><a href="{% url 'users:dashboard' as dash %}{{ dash }}"
+                       class="nav-link px-2 {% if request.path == dash %} link-secondary{% else %}link-dark{% endif %}">Orders</a>
+                </li>
 
             </ul>
 
-            <div class="col-md-3 text-end d-flex justify-content-between">
+            <div class="col-md-3 text-end d-flex justify-content-end">
                 {% if user.is_authenticated %}
-                    <div class="hello-user-header">Hi, {{ user.get_username }}</div>
-                    <a href="{% url "users:logout" %}" class="btn btn-outline-primary">Logout</a>
+                    <div class="hello-user-header pt-1 me-3" style="">Hi, {{ user.get_username }}</div>
+                    <a href="{% url "users:logout" %}" class="btn btn-outline-primary me-2">Logout</a>
                 {% else %}
-                    <a href="{% url "users:login" %}"  class="btn btn-outline-primary me-2">Login</a>
-                    <a href="{% url "users:registration" %}"  class="btn btn-secondary me-3">Sign-up</a>
+                    <a href="{% url "users:login" %}" class="btn btn-outline-primary me-2">Login</a>
+                    <a href="{% url "users:registration" %}" class="btn btn-secondary me-3">Sign-up</a>
                 {% endif %}
 
                 <a class="btn btn-primary position-relative" href="{% url 'cart:cart_detail' %}">
                     Cart
                     <i class="bi bi-cart4"></i>
-                    <span class="navbar-cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                         {% with total_count=cart|length %}
+                    {% with total_count=cart|length %}
+                        <span class="navbar-cart-count {% if total_count is 0 %} d-none {% else %} d-block {% endif %} position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                              {{ total_count }}
-                        {% endwith %}
-                    </span>
+                        </span>
+                    {% endwith %}
                 </a>
             </div>
         </header>

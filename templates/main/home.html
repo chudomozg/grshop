@@ -53,9 +53,10 @@
                                     justify-content-lg-center
                                     justify-content-around
                                     flex-wrap">
-                            <a href="#" class="btn btn-primary mb-0 mb-md-3 mb-xxl-0">
+                            <button type="button" aria-controls="{{ product.id }}"
+                                    class="bestseller-add-one-to-cart-button btn btn-primary mb-0 mb-md-3 mb-xxl-0">
                                 Add to cart
-                            </a>
+                            </button>
                             <a href="{{ product.get_absolute_url }}" class="btn btn-outline-secondary ">More details</a>
                         </div>
                     </div>
@@ -63,5 +64,31 @@
             {% endfor %}
         </div>
     </div>
+
+    <script>
+        //На скорую руку. переписать если будет время.
+        $(document).on('click', '.bestseller-add-one-to-cart-button', function (e) {
+            e.preventDefault();
+            productId = $(e.target).attr('aria-controls');
+            $.ajax({
+                type: 'POST',
+                url: '{% url "cart:cart_detail" %}' + 'add/' + productId + '/',
+                data: {
+                    "productId": productId,
+                    "count": 1,
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                },
+                success: function (json) {
+                    console.log(json.count)
+                    $('.navbar-cart-count').html(json.count)
+                    $('.navbar-cart-count').removeClass('d-none')
+                    $('.navbar-cart-count').addClass('d-block')
+                },
+                error: function (xhr, errMsg, err) {
+                    console.error(errMsg, [xhr, err])
+                }
+            })
+        })
+    </script>
 
 {% endblock %}
