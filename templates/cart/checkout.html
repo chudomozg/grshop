@@ -39,14 +39,26 @@
                     <td colspan="2"></td>
                     <td class="num">${{ cart.get_total_price }}</td>
                 </tr>
+                <tr class="promo-discount-tr d-none">
+                    <td class="promo-discount-tr__discount"></td>
+                    <td colspan="2" ><b>Total sum with discount</b></td>
+                    <td class="promo-discount-tr__total-sum"><b></b></td>
+                </tr>
                 </tbody>
             </table>
         </div>
         <div class="order-promocode col-12 col-lg-4">
-            <form action="{% url "cart:order_add" %}" method="POST" class="d-flex justify-content-evenly align-items-center">
+            <form action="{% url "promo:check_promocode" %}" method="POST" class="check-promocode-form d-flex justify-content-evenly align-items-center">
+                {% csrf_token %}
                 {{ check_promocode_form|crispy  }}
-                <button class="btn btn-outline-primary mt-3" type="submit">Check it!</button>
+                <button class="check-promocode-btn btn btn-outline-primary mt-3" type="submit">Check it!</button>
             </form>
+            <div class="existed-promocode text-center">
+
+            </div>
+            <div class="existed-promo-name text-center">
+
+            </div>
         </div>
         <div class="checkout-order-detail col-12 mt-5">
             <div class="checkout-order-detail__title mb-3">
@@ -66,4 +78,29 @@
         </div>
     </div>
 
+
+<script>
+        //переписать если будет время.
+        $(document).on('click', '.check-promocode-btn', function (e) {
+            e.preventDefault();
+            let data = $('form.check-promocode-form').serialize();
+            console.log((data))
+            $.ajax({
+                type: 'POST',
+                url: '{% url "promo:check_promocode" %}',
+                data: data,
+                success: function (json) {
+                    console.log(json)
+                    $('.existed-promocode').html("Promocode: "+json.promo.promo_code);
+                    $('.existed-promo-name').html("Promotion name: "+json.promo.title);
+                    $('.promo-discount-tr').removeClass('d-none');
+                    $('.promo-discount-tr__discount').html("Discount "+ json.promo.discount + " % ");
+                    $('.promo-discount-tr__total-sum').html("$"+json.total_sum);
+                },
+                error: function (xhr, errMsg, err) {
+                    console.error(errMsg, [xhr, err])
+                }
+            })
+        })
+    </script>
 {% endblock %}

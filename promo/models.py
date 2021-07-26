@@ -71,7 +71,7 @@ class ProductGroupDiscount(Promo):
     # Condition: all products from Promoset have to be inside cart
 
     def condition(self, cart):
-        cart_products_ids = set(cart.keys())
+        cart_products_ids = set(cart.cart.keys())
         promo_products_ids = set(self.products.values_list('id', flat=True))
         return promo_products_ids.issubset(cart_products_ids)
 
@@ -81,7 +81,7 @@ class SimpleDiscount(Promo):
     # So condition cart is not empty
 
     def condition(self, cart):
-        return True if cart.keys() else False
+        return True if cart.cart.keys() else False
 
 
 class CountInStock(Promo):
@@ -91,6 +91,6 @@ class CountInStock(Promo):
                                                        default=5)
 
     def condition(self, cart):
-        cart_products_ids = cart.keys()
+        cart_products_ids = cart.cart.keys()
         cart_products = Product.objects.filter(id__in=cart_products_ids)
         return any(True for product in cart_products if product.stock >= self.need_min_stock_count)
