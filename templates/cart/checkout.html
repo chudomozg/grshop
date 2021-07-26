@@ -41,16 +41,17 @@
                 </tr>
                 <tr class="promo-discount-tr d-none">
                     <td class="promo-discount-tr__discount"></td>
-                    <td colspan="2" ><b>Total sum with discount</b></td>
+                    <td colspan="2"><b>Total sum with discount</b></td>
                     <td class="promo-discount-tr__total-sum"><b></b></td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="order-promocode col-12 col-lg-4">
-            <form action="{% url "promo:check_promocode" %}" method="POST" class="check-promocode-form d-flex justify-content-evenly align-items-center">
+            <form action="{% url "promo:check_promocode" %}" method="POST"
+                  class="check-promocode-form d-flex justify-content-evenly align-items-center">
                 {% csrf_token %}
-                {{ check_promocode_form|crispy  }}
+                {{ check_promocode_form|crispy }}
                 <button class="check-promocode-btn btn btn-outline-primary mt-3" type="submit">Check it!</button>
             </form>
             <div class="existed-promocode text-center">
@@ -78,8 +79,26 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="checkoutModal" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Registration process</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="checkout-promocode-btn-understand btn btn-primary"
+                            data-bs-dismiss="modal"></button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<script>
+    <script>
         //переписать если будет время.
         $(document).on('click', '.check-promocode-btn', function (e) {
             e.preventDefault();
@@ -91,11 +110,20 @@
                 data: data,
                 success: function (json) {
                     console.log(json)
-                    $('.existed-promocode').html("Promocode: "+json.promo.promo_code);
-                    $('.existed-promo-name').html("Promotion name: "+json.promo.title);
-                    $('.promo-discount-tr').removeClass('d-none');
-                    $('.promo-discount-tr__discount').html("Discount "+ json.promo.discount + " % ");
-                    $('.promo-discount-tr__total-sum').html("$"+json.total_sum);
+                    if (json.promo) {
+                        $('.existed-promocode').html("Promocode: " + json.promo.promo_code);
+                        $('.existed-promo-name').html("Promotion name: " + json.promo.title);
+                        $('.promo-discount-tr').removeClass('d-none');
+                        $('.promo-discount-tr__discount').html("Discount " + json.promo.discount + " % ");
+                        $('.promo-discount-tr__total-sum').html("$" + json.total_sum);
+                    }
+
+                    if (json.modal) {
+                        $("#checkoutModal .modal-body").html(json.modal.message)
+                        $('.checkout-promocode-btn-understand').html(json.modal.button)
+                       $("#checkoutModal").modal("show");
+                    }
+
                 },
                 error: function (xhr, errMsg, err) {
                     console.error(errMsg, [xhr, err])
