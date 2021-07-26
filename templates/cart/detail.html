@@ -46,7 +46,7 @@
         </tbody>
     </table>
     <p class="text-right">
-        <a href="{% url "home" %}" class="button light">Continue shopping</a>
-        <a href="#" class="button">Checkout</a>
+        <a href="{% url "catalog:product_list_by_category" %}" class="button light">Continue shopping</a>
+        <a href="{% url "cart:checkout" %}" class="button">Checkout</a>
     </p>
 {% endblock %}

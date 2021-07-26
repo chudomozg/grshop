@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'mptt',
     'cart',
     'promo',
-    'users'
+    'users',
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -135,15 +137,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
 
+# CRISPY_FORM_SETTINGS
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# CART SETTINGS
+TYPES_OF_TOASTS = {"PRODUCT_HAS_ADDED": "product added",
+                   "PRODUCT_HAS_DELETED": 'product deleted'}
+
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_COOKIE_AGE = 604800
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_DOMAIN = None
 CART_SESSION_ID = 'grshop_cart'
-
-# CART SETTINGS
-TYPES_OF_TOASTS = {"PRODUCT_HAS_ADDED": "product added",
-                   "PRODUCT_HAS_DELETED": 'product deleted'}
 
 # USERS SETTINGS
 AUTH_USER_MODEL = 'users.UserBase'
@@ -184,3 +191,8 @@ BILLING_TYPE = {"IN_OFFICE": "in office by self picking up",
                 "CARD_ON_SITE": "card on site now"}
 
 AVAILABLE_BILLING_TYPE = ['IN_OFFICE']
+
+ORDER_ALREADY_EXIST_TEXT = '''You try to add the order with same products and product 
+                                counts that already exist. If It's error, 
+                                please reload the page and contact us (choose "I don't want". 
+                                If you really want to add one more order choose "Create order"'''

@@ -12,7 +12,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='users/registration/login.html',
                                                 form_class=UserLoginForm,
                                                 redirect_authenticated_user=True), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/account/login/'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/user/login/'), name='logout'),
     # User dashboard
     path('dashboard/', views.dashboard, name='dashboard'),
     path('profile/edit/', views.edit_details, name='edit_details'),

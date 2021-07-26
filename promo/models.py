@@ -32,7 +32,8 @@ class Promo(PolymorphicModel):
                              verbose_name='Title')
     promo_code = models.CharField(max_length=255,
                                   verbose_name='Promotion code',
-                                  default=get_random_string(length=6).upper())
+                                  default=get_random_string(length=6).upper(),
+                                  unique=True)
     slug = models.SlugField(unique=True,
                             verbose_name="slug (URL)")
     image = models.ImageField(upload_to='promo/',
@@ -59,7 +60,7 @@ class Promo(PolymorphicModel):
 
     class Meta:
         ordering = ['title', 'discount']
-        index_together = ('id', 'slug')
+        index_together = ('id', 'promo_code')
 
     def get_absolute_url(self):
         return reverse('promo_detail',

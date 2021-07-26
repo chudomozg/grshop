@@ -42,8 +42,8 @@ class SelectWidgetWithDisableOptions(Select):
 
 
 class CheckOutForm(forms.Form):
-    user_id = forms.HiddenInput()
-    first_name = forms.CharField(required=True,)
+    promo_code = forms.CharField(required=False, widget=forms.HiddenInput(attrs={'value': 'special'}))
+    first_name = forms.CharField(required=True, )
     last_name = forms.CharField(required=True)
     phone_number = forms.CharField(required=True)
     country = forms.CharField(required=True)
@@ -55,11 +55,12 @@ class CheckOutForm(forms.Form):
                                      widget=SelectWidgetWithDisableOptions(disabled_choices=AVAILABLE_BILLING_TYPE))
     delivery_type = forms.ChoiceField(choices=DELIVERY_TYPE.items(),
                                       widget=SelectWidgetWithDisableOptions(disabled_choices=AVAILABLE_DELIVERY_TYPE))
-    comment = forms.CharField(widget=forms.Textarea(attrs={"rows":5, "cols":20}))
+    comment = forms.CharField(widget=forms.Textarea(attrs={"rows": 5, "cols": 20}), required=False)
 
     class Meta:
         model = Order
         fields = (
+            'promo_code'
             'first_name',
             'last_name',
             'phone_number',

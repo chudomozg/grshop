@@ -32,13 +32,19 @@
                 <li>
                     <a href="{% url 'promo:promo_list' %}" class="nav-link px-2 link-dark">Promo</a>
                 </li>
-                <li><a href="#" class="nav-link px-2 link-dark">Orders</a></li>
+                <li><a href="{% url 'users:dashboard' %}" class="nav-link px-2 link-dark">Orders</a></li>
 
             </ul>
 
-            <div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary me-2">Login</button>
-                <button type="button" class="btn btn-secondary me-3">Sign-up</button>
+            <div class="col-md-3 text-end d-flex justify-content-between">
+                {% if user.is_authenticated %}
+                    <div class="hello-user-header">Hi, {{ user.get_username }}</div>
+                    <a href="{% url "users:logout" %}" class="btn btn-outline-primary">Logout</a>
+                {% else %}
+                    <a href="{% url "users:login" %}"  class="btn btn-outline-primary me-2">Login</a>
+                    <a href="{% url "users:registration" %}"  class="btn btn-secondary me-3">Sign-up</a>
+                {% endif %}
+
                 <a class="btn btn-primary position-relative" href="{% url 'cart:cart_detail' %}">
                     Cart
                     <i class="bi bi-cart4"></i>
