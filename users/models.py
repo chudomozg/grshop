@@ -40,7 +40,7 @@ class CustomUserManager(BaseUserManager):
         return user
 
 
-class UserBase(AbstractBaseUser, DeliveryDetailsMixin, PermissionsMixin):
+class UserBase(DeliveryDetailsMixin, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('email address', unique=True)
     user_name = models.CharField(max_length=150, unique=True)
 

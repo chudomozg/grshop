@@ -1,0 +1,62 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+
+{% block title %}
+    GRshop | Checkout
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Checkout order</h1>
+        </div>
+        <div class="col-12">
+            <table class="cart w-100 table .table-striped ">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Count</th>
+                    <th>Unit price</th>
+                    <th>Sum</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for item in cart %}
+                    {% with product=item.product %}
+                        <tr class="cart-item-tr">
+                            <td>{{ product.title }}</td>
+                            <td>{{ item.count }}</td>
+                            <td class="num">${{ item.price }}</td>
+                            <td class="num">${{ item.total_price }}</td>
+                        </tr>
+                    {% endwith %}
+                {% endfor %}
+                <tr class="total">
+                    <td>Total</td>
+                    <td colspan="4"></td>
+                    <td class="num">${{ cart.get_total_price }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="checkout-order-detail col-12">
+            <div class="checkout-order-detail__title">
+                Check order delivery and payment information
+            </div>
+            <div class="checkout-order-detail__body">
+                <div class="checkout-order-detail__form">
+                    {{ user.phone_number }}
+                    {{ fields }}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {{ checkout_form }}
+                        <button type="submit">Send order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

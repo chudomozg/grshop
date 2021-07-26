@@ -21,25 +21,25 @@ class Order(DeliveryDetailsMixin):
         max_length=100,
         verbose_name='Order status',
         choices=STATUS.items(),
-        default=STATUS.NEW
+        default=STATUS['NEW']
     )
     delivery_type = models.CharField(
         max_length=100,
         verbose_name='Delivery type',
         choices=DELIVERY_TYPE.items(),
-        default=DELIVERY_TYPE.STANDARD_DELIVERY
+        default=DELIVERY_TYPE['STANDARD_DELIVERY']
     )
     billing_status = models.CharField(
         max_length=100,
         verbose_name='Billing status',
         choices=BILLING_STATUS.items(),
-        default=BILLING_STATUS.NOT_PAID
+        default=BILLING_STATUS['NOT_PAID']
     )
     billing_type = models.CharField(
         max_length=100,
         verbose_name='Billing type',
         choices=BILLING_TYPE.items(),
-        default=BILLING_TYPE.IN_OFFICE
+        default=BILLING_TYPE['IN_OFFICE']
     )
     comment = models.TextField(verbose_name='Additional Information',
                                null=True,
@@ -50,6 +50,10 @@ class Order(DeliveryDetailsMixin):
     updated = models.DateTimeField(auto_now=True,
                                    verbose_name='Updating date',
                                    help_text='Date of last order update')
+    # order_hash it's hash of cart for prevent duplicate order
+    order_hash = models.CharField(max_length=100,
+                                  null=True,
+                                  blank=True)
 
     def __str__(self):
         return str(self.id)

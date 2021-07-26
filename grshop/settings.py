@@ -174,9 +174,13 @@ STATUS = {'NEW': 'new order',
 DELIVERY_TYPE = {"SELF": "self",
                  "STANDARD_DELIVERY": "standard delivery"}
 
+AVAILABLE_DELIVERY_TYPE = ['SELF']
+
 BILLING_STATUS = {"NOT_PAID": 'not paid',
                   "PART_PAID": 'paid particularly',
                   "FULL_PAID": 'full paid'}
 
 BILLING_TYPE = {"IN_OFFICE": "in office by self picking up",
                 "CARD_ON_SITE": "card on site now"}
+
+AVAILABLE_BILLING_TYPE = ['IN_OFFICE']
