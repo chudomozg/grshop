@@ -70,9 +70,6 @@
                     <form action="{% url "cart:order_add" %}" method="POST" class="row">
                         {% csrf_token %}
                         {% crispy checkout_form %}
-{#                        <div class="checkout-order-button__wrapper d-flex justify-content-end mt-3 mb-5">#}
-{#                            <button class="btn btn-primary" type="submit">Send order</button>#}
-{#                        </div>#}
                     </form>
                 </div>
             </div>
@@ -116,6 +113,7 @@
                         $('.promo-discount-tr').removeClass('d-none');
                         $('.promo-discount-tr__discount').html("Discount " + json.promo.discount + " % ");
                         $('.promo-discount-tr__total-sum').html("$" + json.total_sum);
+                        $('.checkout-order-detail__form input:hidden[name=promo_code]').attr('value', json.promo.promo_code);
                     }
 
                     if (json.modal) {

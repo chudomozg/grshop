@@ -27,7 +27,7 @@ def order_add(request):
         promo = None
         if checkout_form.cleaned_data['promo_code'] \
                 and Promo.objects.filter(promo_code=checkout_form.cleaned_data['promo_code']).exists():
-            promo = Promo.objects.filter(promo_code=checkout_form.cleaned_data['promo_code'])
+            promo = Promo.objects.get(promo_code=checkout_form.cleaned_data['promo_code'])
 
         cart = Cart(request)
         order_hash = get_order_hash(cart, promo)

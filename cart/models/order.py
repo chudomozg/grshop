@@ -45,8 +45,10 @@ def create_order(user_id, cart, promo, order_hash, checkout_form_data):
                                  total_sum=total_sum,
                                  **other_kwargs
                                  )
+    order.save()
     if promo_id:
-        order.promo_id = promo_id
+        order.promo.add(promo_id)
+        order.save()
     order_id = order.pk
     for item in cart:
         OrderItem.objects.create(order_id=order_id, product=item['product'], price=item['price'], count=item['count'])
