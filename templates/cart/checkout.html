@@ -70,9 +70,9 @@
                     <form action="{% url "cart:order_add" %}" method="POST" class="row">
                         {% csrf_token %}
                         {% crispy checkout_form %}
-                        <div class="checkout-order-button__wrapper d-flex justify-content-end mt-3 mb-5">
-                            <button class="btn btn-primary" type="submit">Send order</button>
-                        </div>
+{#                        <div class="checkout-order-button__wrapper d-flex justify-content-end mt-3 mb-5">#}
+{#                            <button class="btn btn-primary" type="submit">Send order</button>#}
+{#                        </div>#}
                     </form>
                 </div>
             </div>

@@ -5,6 +5,7 @@ from cart.models import Order
 from grshop.settings import DELIVERY_TYPE, BILLING_TYPE, AVAILABLE_BILLING_TYPE, AVAILABLE_DELIVERY_TYPE
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Div, MultiField, Field
+from crispy_forms.layout import Submit
 
 PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 10)]
 
@@ -93,3 +94,5 @@ class CheckOutForm(forms.Form):
             Div(Field('promo_code'), css_class=''),
             Div(Field('comment'), css_class="col-12")
         )
+        self.helper.add_input(Submit('submit', 'Send order', css_class='btn-primary mt-3 mb-5 float-end'))
+        self.helper.form_method = 'POST'
