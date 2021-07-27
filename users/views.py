@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth import login, logout
 
+from cart.views import user_orders
 from grshop.settings import REGISTRATION_SUCCESS_TEXT
 from .forms import RegistrationForm, UserEditForm
 from django.shortcuts import render, redirect
@@ -64,10 +65,10 @@ def user_activate(request, uidb64, token):
 
 @login_required(login_url='users:login')
 def dashboard(request):
-    # orders = user_orders(request)
+    orders = user_orders(request)
     return render(request,
-                  'users/user/dashboard.html')
-    # {'section': 'profile', 'orders': orders})
+                  'users/user/dashboard.html',
+                  {'orders': orders})
 
 
 @login_required(login_url='users:login')
